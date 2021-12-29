@@ -1,0 +1,63 @@
+<mat-toolbar>Signos Vitales</mat-toolbar>
+<router-outlet></router-outlet>
+
+<div [hidden]="validarHijos()">
+  <div class="example-container mat-elevation-z8">
+    <div class="example-header">
+      <mat-form-field>
+        <input matInput (keyup)="filtrar($event)" placeholder="Buscar Signos Vitales">
+      </mat-form-field>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="paciente">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Paciente </th>
+        <td mat-cell *matCellDef="let element"> {{element.paciente.nombres}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+        <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="temperatura">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Temperatura </th>
+        <td mat-cell *matCellDef="let element"> {{element.temperatura}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="pulso">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Pulso </th>
+        <td mat-cell *matCellDef="let element"> {{element.pulso}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ritmoRespiratorio">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ritmo Respiratorio </th>
+        <td mat-cell *matCellDef="let element"> {{element.ritmoRespiratorio}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button color="primary" [routerLink]="['edicion', element.idSignoVital]">
+            <mat-icon>ballot</mat-icon>
+          </button>
+          <button mat-button color="primary" (click)="eliminar(element.idSignoVital)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]="cantidad" (page)="mostrarMas($event)">
+    </mat-paginator>
+
+    <button mat-fab color="accent" style="float: right" routerLink="/pages/signos-vitales/nuevo">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
